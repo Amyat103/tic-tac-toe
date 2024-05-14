@@ -13,12 +13,19 @@ const GameBoard = {
     },
 
     placeMarker: function(row, col, marker){
-        this.gameBoard[row][col] = marker;
-        console.log(this.gameBoard);
-        if(this.checkWin === true){
-            console.log(marker + "is the winner");
-            return true;
+        if(this.gameBoard[row][col] === ""){
+            this.gameBoard[row][col] = marker;
+            console.log(this.gameBoard);
+            if(this.checkWin === true){
+                console.log(marker + "is the winner");
+                return true;
+            }
+        }else{
+            console.log(this.gameBoard);
+            return false;
         }
+        
+        return false;
     },
 
     checkWin: function() {
@@ -30,7 +37,7 @@ const GameBoard = {
 
     checkRow: function() {
         for(let i = 0; i < this.gameBoard.length; i++){
-            if(this.gameBoard[i][0] === this.gameBoard[i][1] === this.gameBoard[i][2]){
+            if(this.gameBoard[i][0] && this.gameBoard[i][0] === this.gameBoard[i][1] && this.gameBoard[i][1] === this.gameBoard[i][2]){
                 return true;
             }
         }
@@ -39,7 +46,7 @@ const GameBoard = {
 
     checkCol: function() {
         for(let i = 0; i < this.gameBoard.length; i++){
-            if(this.gameBoard[0][i] === this.gameBoard[1][i] === this.gameBoard[2][i]){
+            if(this.gameBoard[0][i] && this.gameBoard[0][i] === this.gameBoard[1][i] && this.gameBoard[1][i] === this.gameBoard[2][i]){
                 return true;
             }
         }
@@ -47,9 +54,9 @@ const GameBoard = {
     },
 
     checkDiag: function() {
-        if(this.gameBoard[1][1] === this.gameBoard[0][0] === this.gameBoard[2][2]){
+        if(this.gameBoard[1][1] && this.gameBoard[1][1] === this.gameBoard[0][0] && this.gameBoard[1][1] === this.gameBoard[2][2]){
             return true;
-        }else if(this.gameBoard[1][1] === this.gameBoard[0][2] === this.gameBoard[2][0]){
+        }else if(this.gameBoard[1][1] && this.gameBoard[1][1] === this.gameBoard[0][2] && this.gameBoard[1][1] === this.gameBoard[2][0]){
             return true;
         }
         return false;
