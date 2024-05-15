@@ -20,7 +20,7 @@ const GameBoard = {
         if(this.gameBoard[row][col] === ""){
             this.gameBoard[row][col] = marker;
             console.log(this.gameBoard);
-            if(this.checkWin === true){
+            if(this.checkWin()){
                 console.log(marker + "is the winner");
             }
             return true;
@@ -28,12 +28,10 @@ const GameBoard = {
             console.log(this.gameBoard);
             return false;
         }
-        
-        return false;
     },
 
     checkWin: function() {
-        if(this.gameBoard.checkCol || this.gameBoard.checkRow || this.gameBoard.checkDiag){
+        if(this.checkCol() || this.checkRow() || this.checkDiag()){
             return true;
         }
         return false;
@@ -41,7 +39,7 @@ const GameBoard = {
 
     checkRow: function() {
         for(let i = 0; i < this.gameBoard.length; i++){
-            if(this.gameBoard[i][0] && this.gameBoard[i][0] === this.gameBoard[i][1] && this.gameBoard[i][1] === this.gameBoard[i][2]){
+            if(this.gameBoard[i][0] != "" && this.gameBoard[i][0] === this.gameBoard[i][1] && this.gameBoard[i][1] === this.gameBoard[i][2]){
                 return true;
             }
         }
@@ -50,7 +48,7 @@ const GameBoard = {
 
     checkCol: function() {
         for(let i = 0; i < this.gameBoard.length; i++){
-            if(this.gameBoard[0][i] && this.gameBoard[0][i] === this.gameBoard[1][i] && this.gameBoard[1][i] === this.gameBoard[2][i]){
+            if(this.gameBoard[0][i] != "" && this.gameBoard[0][i] === this.gameBoard[1][i] && this.gameBoard[1][i] === this.gameBoard[2][i]){
                 return true;
             }
         }
@@ -58,28 +56,24 @@ const GameBoard = {
     },
 
     checkDiag: function() {
-        if(this.gameBoard[1][1] && this.gameBoard[1][1] === this.gameBoard[0][0] && this.gameBoard[1][1] === this.gameBoard[2][2]){
+        if(this.gameBoard[1][1] != "" && this.gameBoard[1][1] === this.gameBoard[0][0] && this.gameBoard[1][1] === this.gameBoard[2][2]){
             return true;
-        }else if(this.gameBoard[1][1] && this.gameBoard[1][1] === this.gameBoard[0][2] && this.gameBoard[1][1] === this.gameBoard[2][0]){
+        }else if(this.gameBoard[1][1] != "" && this.gameBoard[1][1] === this.gameBoard[0][2] && this.gameBoard[1][1] === this.gameBoard[2][0]){
             return true;
         }
         return false;
     },
 
     checkDraw: function() {
-        checkFull = false;
         for(let i = 0; i < this.gameBoard.length; i++){
             for(let j = 0; j < this.gameBoard.length; j++){
                 if(this.gameBoard[i][j] === ""){
-                    checkFull = false;
+                    return false;
                 }
             }
         }
-        checkFull = true;
-        if(checkFull === true){
-            if(this.checkWin === false){
-                return true;
-            }
+        if(this.checkWin === false){
+            return true;
         }
         return false;
     }
@@ -87,8 +81,8 @@ const GameBoard = {
 };
 
 function Player (name, marker) {
-    const name = name;
-    const marker = marker;
+    // const name = name;
+    // const marker = marker;
     return {name, marker};
 }
 
@@ -105,26 +99,36 @@ const gameControl = (function() {
     }
 
     function play(row, col) {
+        if(row > GameBoard.length || col > GameBoard[0].length){
+            console.log("invalid entry");
+        }
         // null means placed
         if(GameBoard.placeMarker(row, col, currentPlayer.marker)){
             console.log("placed")
             console.log(GameBoard.showBoard());
-            this.switchPlayer();
-            if(GameBoard.checkWin === true){
+
+            if(GameBoard.checkWin()){
                 console.log("Winner");
                 console.log(currentPlayer.name + " is the winner");
+                return;
             }
+            if(GameBoard.checkDraw()){
+                console.log("DRAW");
+                console.log();
+                return;
+            }
+
+            switchPlayer();
+
         }else{
             console.log("spot taken, did not place")
         }
     }
 
     function switchPlayer() {
-        if(currentPlayer === player1){
-            this.currentPlayer = player2;
-        }else{
-            this.currentPlayer = player1;
-        }
+        currentPlayer = currentPlayer === player1 ? player2 : player1;
     }
-})
+
+    return {start, play};
+})();
 
