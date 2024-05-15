@@ -132,3 +132,21 @@ const gameControl = (function() {
     return {start, play};
 })();
 
+const main_grid = document.getElementsByClassName("grid-container");
+
+window.onload = function() {
+
+    // make play grid
+    for(let i = 0; i < 9; i++){
+        const newItem = document.createElement("div");
+        newItem.className("grid-item");
+        main_grid.append(newItem);
+    }
+
+    
+}
+
+
+
+
+
