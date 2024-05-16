@@ -76,7 +76,17 @@ const GameBoard = {
             return true;
         }
         return false;
-    }
+    },
+
+    getStatus: function() {
+        let status = [];
+        for(let i = 0; i < this.gameBoard.length; i++){
+            for(let j = 0; j < this.gameBoard.length; j++){
+                status.push(this.gameBoard[i][j]);
+            }
+        }
+        return status;
+    },
     
 };
 
@@ -132,18 +142,26 @@ const gameControl = (function() {
     return {start, play};
 })();
 
-const main_grid = document.getElementsByClassName("grid-container");
-
 window.onload = function() {
+
+    const main_grid = document.querySelector(".grid-container");
+    const playButton = document.querySelector("#playButton")
 
     // make play grid
     for(let i = 0; i < 9; i++){
         const newItem = document.createElement("div");
-        newItem.className("grid-item");
-        main_grid.append(newItem);
+        newItem.className = "grid-items";
+        newItem.textContent = 0;
+        main_grid.appendChild(newItem);
     }
 
-    
+    playButton.addEventListener("click", function() {
+        gameControl.start();
+        let currBoard = GameBoard.showBoard();
+
+
+    });
+
 }
 
 

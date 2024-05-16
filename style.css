@@ -1,2 +1,36 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
+.body {
+    display: flex;
+    flex-direction: column;
+    width: 70vw;
+    height: 80vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.players {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.grid-container {
+    display: grid;
+    /* border: solid 2px black; */
+    width: 50vw;
+    grid-template-columns: repeat(3, minmax(100px, auto));
+    gap: 15px;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+.grid-items {
+    border: solid 1px black;
+}
 
